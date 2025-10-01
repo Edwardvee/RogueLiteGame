@@ -1,15 +1,34 @@
 -- src/entities/player.lua
 local Player = {}
 
-function Player.new(x, y)
+function Player.new(world, x, y)
     local self = {
         x = x or 400,
         y = y or 300,
-        radius = 20,
-        speed = 200,
-        vx = 0,
-        vy = 0
+        width = 32, -- Ancho del rectángulo (coincide con el sprite)
+        height = 64, -- Alto del rectángulo
+        body = nil,
+        shape = nil,
+        fixture = nil,
+        sprite = nil,
+
+        stats = {
+            hp = 100,
+            curr_hp = 100,
+            dmg = 1,
+            speed = 200
+        }
+
     }
+    self.sprite = love.graphics.newImage("assets/sprites/pjtest.png")
+    self.body = love.physics.newBody(world, self.x, self.y, "dynamic")
+    self.shape = love.physics.newRectangleShape(self.width, self.height)
+    self.fixture = love.physics.newFixture(self.body, self.shape, 1)
+    self.body:setFixedRotation(true)
+    self.fixture:setUserData({
+        type = "player",
+        object = self
+    })
 
     function self:update(dt, input)
         if not input or not input.isDown then
@@ -17,46 +36,40 @@ function Player.new(x, y)
             return
         end
 
-        -- Reiniciar velocidades
-        self.vx = 0
-        self.vy = 0
-
-        -- Actualizar velocidad según input
+        local vx, vy = 0, 0
         if input.isDown('w') then
-            self.vy = -self.speed
+            vy = -self.stats.speed
         end
         if input.isDown('s') then
-            self.vy = self.speed
+            vy = self.stats.speed
         end
         if input.isDown('a') then
-            self.vx = -self.speed
+            vx = -self.stats.speed
         end
         if input.isDown('d') then
-            self.vx = self.speed
+            vx = self.stats.speed
         end
 
-        -- Depuración: mostrar velocidades calculadas
-        print("Velocidad: vx=" .. self.vx .. ", vy=" .. self.vy)
-
-        -- Normalizar velocidad diagonal
-        if self.vx ~= 0 and self.vy ~= 0 then
-            local mag = math.sqrt(self.vx ^ 2 + self.vy ^ 2)
-            self.vx = self.vx * self.speed / mag
-            self.vy = self.vy * self.speed / mag
+        if vx ~= 0 and vy ~= 0 then
+            local mag = math.sqrt(vx ^ 2 + vy ^ 2)
+            vx = vx * self.stats.speed / mag
+            vy = vy * self.stats.speed / mag
         end
 
-        -- Actualizar posición
-        self.x = self.x + self.vx * dt
-        self.y = self.y + self.vy * dt
+        self.body:setLinearVelocity(vx, vy)
 
-        -- Limitar al área de la pantalla
-        self.x = math.max(self.radius, math.min(self.x, love.graphics.getWidth() - self.radius))
-        self.y = math.max(self.radius, math.min(self.y, love.graphics.getHeight() - self.radius))
+        self.x, self.y = self.body:getPosition()
+
+        -- Depuración
+        -- print("Velocidad: vx=" .. vx .. ", vy=" .. vy)
     end
 
     function self:draw()
         love.graphics.setColor(1, 1, 1)
-        love.graphics.circle("fill", self.x, self.y, self.radius)
+        love.graphics.draw(self.sprite, self.x - self.width, self.y - self.height / 2)
+        -- Depuración: dibujar contorno del rectángulo físico
+        -- love.graphics.setColor(1, 0, 0) -- Rojo
+        -- love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
     end
 
     return self
