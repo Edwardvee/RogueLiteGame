@@ -4,7 +4,6 @@ local Input = {}
 function Input.new()
     local self = {}
 
-    -- Tabla para rastrear teclas presionadas
     local keys = {}
 
     -- Verifica si una tecla está presionada
