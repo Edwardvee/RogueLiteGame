@@ -9,6 +9,7 @@ local HitDirection = require('src.entities.hitDirection')
 local Cursor = require('src.entities.cursor')
 local Scaling = require('src.core.scaling')
 local Slime = require('src.entities.enemies.slime')
+local PlayerAttack = require('src.entities.ui.playerAttack')
 local scaling
 local player
 local input
@@ -19,7 +20,7 @@ local mouse
 local ray
 local hitDirection
 local cursor
-
+local playerAttack
 local slime
 function love.load()
     -- Inicializar módulos
@@ -31,7 +32,7 @@ function love.load()
     ray = RayHit.new(player, mouse)
     hitDirection = HitDirection.new(player, mouse)
     cursor = Cursor.new(mouse)
-
+    playerAttack = PlayerAttack.new(player, mouse)
     -- Crear paredes estáticas (borde de la pantalla)
     walls = {
         top = physics:createStaticRect(400, 10, 800, 20),
@@ -56,6 +57,7 @@ function love.update(dt)
     hitDirection:update()
     cursor:update()
     slime:update(dt, player)
+    playerAttack:update(dt)
 end
 
 function love.draw()
@@ -65,6 +67,7 @@ function love.draw()
     mouse:hideSystemCursor()
     mouse:captureCursor()
     slime:draw()
+    playerAttack:draw()
     -- Dibujar paredes
     love.graphics.setColor(0.5, 0.5, 0.5) -- Gris
     for _, wall in pairs(walls) do

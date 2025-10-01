@@ -110,6 +110,8 @@ function Slime.new(world, x, y)
         end
     end
     function self:draw()
+        love.graphics.setDefaultFilter('nearest', 'nearest')
+
         love.graphics.setColor(1, 1, 1)
         love.graphics.draw(self.sprite, self.x - self.width, self.y - self.height)
 
