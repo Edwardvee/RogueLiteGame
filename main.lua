@@ -51,7 +51,7 @@ end
 function love.update(dt)
     scaling:update()
     physics:update(dt)
-    player:update(dt, input)
+    player:update(dt, input, mouse)
     mouse:updatePosition(love.mouse.getPosition())
     ray:update()
     hitDirection:update()

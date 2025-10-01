@@ -32,9 +32,8 @@ function HitDirection.new(player, mouse)
 
     function self:draw()
         love.graphics.setColor(1, 1, 1)
-        -- Dibujar sprite en la posición calculada, rotado hacia el mouse
         love.graphics.draw(self.sprite, self.x, self.y, self.angle + math.pi / 2, 1, 1, self.spriteWidth / 2,
-            self.spriteHeight / 2)
+            self.spriteHeight / 2) -- Ajusta aquí el +4 si la punta del cursor está descentrada (prueba 0 a 8)
     end
 
     return self

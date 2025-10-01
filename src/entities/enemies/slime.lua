@@ -29,7 +29,7 @@ function Slime.new(world, x, y)
     self.fixture = love.physics.newFixture(self.body, self.shape, 100)
     self.body:setFixedRotation(true)
     self.fixture:setUserData({
-        type = "slime",
+        type = "entity",
         object = self
     })
 
@@ -69,14 +69,14 @@ function Slime.new(world, x, y)
     function self:beginContact(other)
         if other.type == "player" and other.object then
             self.isPlayerNearby = true
-            print("Slime detecto al jugador en (" .. other.object.x .. ", " .. other.object.y .. ")")
+            -- print("Slime detecto al jugador en (" .. other.object.x .. ", " .. other.object.y .. ")")
         end
     end
 
     function self:endContact(other)
         if other.type == "player" then
             self.isPlayerNearby = false
-            print("Slime perdio al jugador")
+            -- print("Slime perdio al jugador")
         end
     end
     function self:update(dt, player) -- Añadir player como parámetro para obtener coordenadas
