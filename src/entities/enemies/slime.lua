@@ -116,10 +116,10 @@ function Slime.new(world, x, y)
         love.graphics.draw(self.sprite, self.x - self.width, self.y - self.height)
 
         -- Depuración
-        love.graphics.setColor(1, 0, 0)
-        love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
-        love.graphics.setColor(self.isPlayerNearby and {1, 0, 0} or {0, 1, 0})
-        love.graphics.circle("line", self.x, self.y, self.aggroShape:getRadius())
+        --  love.graphics.setColor(1, 0, 0)
+        -- love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
+        -- love.graphics.setColor(self.isPlayerNearby and {1, 0, 0} or {0, 1, 0})
+        -- love.graphics.circle("line", self.x, self.y, self.aggroShape:getRadius())
     end
     return self
 

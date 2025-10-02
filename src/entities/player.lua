@@ -141,10 +141,10 @@ function Player.new(world, x, y)
         love.graphics.setColor(1, 1, 1)
         love.graphics.draw(self.sprite, self.x, self.y, 0, 1, 1, self.width / 2, self.height / 2)
         -- Depuración: dibujar contorno del rectángulo físico y hitbox
-        love.graphics.setColor(1, 0, 0) -- Rojo
-        love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
-        love.graphics.setColor(self.hitting and {1, 0, 0} or {0, 1, 0}) -- Rojo si activa, verde si no
-        love.graphics.polygon(self.fill, self.hitboxBody:getWorldPoints(self.hitboxShape:getPoints()))
+        --   love.graphics.setColor(1, 0, 0) -- Rojo
+        -- love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
+        --  love.graphics.setColor(self.hitting and {1, 0, 0} or {0, 1, 0}) -- Rojo si activa, verde si no
+        --  love.graphics.polygon(self.fill, self.hitboxBody:getWorldPoints(self.hitboxShape:getPoints()))
     end
 
     return self
